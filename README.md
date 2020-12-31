@@ -66,7 +66,7 @@ To start the script you have to give the file the permission to be executed as a
 /path/to/merfoc.sh
 ```
 
-## Reducing the glowing light around fluorescent fibers when photogaphing with UV light (`merfoc_fluo.sh`)
+## Reducing the glowing light around fluorescent fibers when photographing with UV light (`merfoc_fluo.sh`)
 This script is not much different from the one above. The difference is that now the program convert is called prior to the alignment to eliminate the blue colour channel and desaturate the images. 
 
 ```bash
