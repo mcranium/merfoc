@@ -71,7 +71,7 @@ focus-stack image_1 image_2 image_3 --output=/}_merfoc_fs.tif
 ## Efficiently using the command line programs
 To not repeat this commands for each stack the commands can be wrapped into a shell script, which can act like a program on the command line. For this scripts to work properly, the image files of each stack must be in their own folders (and checked and for eventual 90 degree rotations!). The folders should be inside an ideally empty folder (text files etc. are unproblematic but images could get overwritten accidentally). This way, preparing the files is the same as for CZBatch. All of the scripts have in common that they search for folders and sequentially go into them and perform the alignment followed by the focus merging. The original images remain as they are before running the scripts and the merged images and placed in the parent directory (where the stack-folders are located). The name of the output image is defined by the names of the stack folders and the suffix specified in the script.
 
-### `focus-stack` inside a script
+### `focus-stack` inside a script (`merfoc_fs.sh`)
 
 ```bash
 #!/bin/bash
@@ -99,7 +99,7 @@ do
 done
 ```
 
-### Hugin and Enfuse inside a script
+### Hugin and Enfuse inside a script (`merfoc_enf.sh`)
 
 ```bash
 #!/bin/bash
@@ -146,7 +146,7 @@ The script explained here can also be found as downloadable files in this reposi
 /path/to/merfoc.sh
 ```
 
-## Practical example: Reducing artefacts around fluorescent fibers when photographing with UV light
+## Practical example: Reducing artefacts around fluorescent fibers when photographing with UV light (`merfoc_fluo.sh`)
 When merging focus stacks of images from UV light photography there are often artefacts around dust fibers. Some dust fibers strongly glow in blue colour when exposed to UV light. When a focus stack is merged this can result in artefects which are much larger than the fiber itself. By removing the blue colour channel before the focus merging, the artfacts can be minimized. The `convert` function of the software suite [Image Magick](https://imagemagick.org/index.php) can do that when given the specific arguments. 
 
 ```bash
