@@ -1,17 +1,16 @@
 # An Introduction to merging focus stacks using command line tools
 
 ## Why the command line?
-There are many programs available to perform the task of merging multiple images into a single image with everything in focus. Some of the most widely used programs are proprietary (e.g. Helicon Focus or Zerene Stacker). There are also many programs that are free/free and open that can do the same task in a similar quality as the proprietary programs. Probably the most widely used free and open focus merging program is [CombineZP](https://www.chip.de/downloads/CombineZP_27754625.html) (formerly CombineZ5 and CombineZM), which was the program that I used most often in the past years, because it is free and open and it produces high quality results. But what if you have to merge a lot of stacks and you don't want to spend an afternoon clicking through menus and waiting for the program to finish each job? A good solution to this is to use focus mergin programs in a batch mode. CombineZP for example comes with a companion program (CZBatch), that does exactly that. But CombineZP has its glitches and a lot of windows tend to pop up even if you use it in batch mode (practically making your computer unusable until the program finishes). Still, CombineZP is easy to use, consistently produces high quality results and, though designed for Windows, it can run on UNIX systems like GNU/Linux with the help of [WINE](https://www.winehq.org/) and derivative programs like [Winebotteler](https://winebottler.kronenberg.org/). This way for many people CombineZP will continue to be the best solution the open source realm.
+There are many programs available to perform the task of merging multiple images into a single image with everything in focus. Some of the most widely used programs are proprietary (e.g. Helicon Focus or Zerene Stacker). There are also many programs that are free/free and open that can do the same task in a similar quality as the proprietary programs. Probably the most widely used free and open focus merging program is [CombineZP](https://www.chip.de/downloads/CombineZP_27754625.html) (formerly CombineZ5 and CombineZM), which was the program that I used most often in the past years, because it is free and open and it produces high quality results. But what if you have to merge a lot of stacks and you don't want to spend an afternoon clicking through menus and waiting for the program to finish each job? A good solution to this is to use focus merging programs in a batch mode. CombineZP for example comes with a companion program (CZBatch), that does exactly that. But CombineZP has its glitches and a lot of windows tend to pop up even if you use it in batch mode (practically making your computer unusable until the program finishes). Still, CombineZP is easy to use, consistently produces high quality results and, though designed for Windows, it can run on UNIX systems like GNU/Linux with the help of [WINE](https://www.winehq.org/) and derivative programs like [Winebotteler](https://winebottler.kronenberg.org/). This way for many people CombineZP will continue to be the best solution in the open source realm.
 
-But what if want to speed up your workflow by using a powerful server instead of your laptop or perform actions that are not included in your focus merging program without exporting and importing files by hand? What if you want to focus merge images automatically as soon as your digital microscope finished taking the pictures? Or what if you simply want your focus merging to be done quietly in a terminal window while you are doing something else? If you are able to move your focus merging workflow to the command line all of this (and a lot more) is possible. Also, if there are new methods for focus merging, in most cases they will be available as command line programs before (if ever) someone writes a graphical user interface (GUI) for them.
+But what if you want to speed up your workflow by using a powerful server instead of your laptop or perform actions that are not included in your focus merging program without exporting and importing files by hand? What if you want to focus merge images automatically as soon as your digital microscope finished taking the pictures? Or what if you simply want your focus merging to be done quietly in a terminal window while you are doing something else? If you are able to move your focus merging workflow to the command line all of this (and a lot more) is possible. Also, if there are new methods for focus merging, in most cases they will be available as command line programs before (if ever) someone writes a graphical user interface (GUI) for them.
 
 ## What programs to use?
 Even though CombineZP seems to have command line functionality, I avoided using it so far because it is a Windows program and the errors which I can run into might be really hard to fix on on my Linux systems. 
 
 
 ### Hugin and Enfuse
-One way is to use `enfuse` from [Enfuse/Enblend](http://enblend.sourceforge.net/). However, `enfuse` can only perform the focus mergin process but not the image alignment. For the image alignment another program is needed. For this we can use `align_image_stack` from the software suite [Hugin](http://hugin.sourceforge.net/). Both programs are easily available on most Linux distributions via the inbuilt package managers and can also be installed on other UNIX systems such as MacOS (not tested personally).
-
+One way is to use `enfuse` from [Enfuse/Enblend](http://enblend.sourceforge.net/). However, `enfuse` can only perform the focus merging process but not the image alignment. For the image alignment another program is needed. For this we can use `align_image_stack` from the software suite [Hugin](http://hugin.sourceforge.net/). Both programs are easily available on most Linux distributions via the inbuilt package managers and can also be installed on other UNIX systems such as MacOS (not tested personally).
 
 ```bash
 # for Debian/Ubuntu (based) distributions:
@@ -29,7 +28,7 @@ align_image_stack image_1 image_2 image_3 \
                         -c 20
 ```
 
-Writing or pasting in names of files is of course very inefficient. The below command takes all images beginning with the letters `IMG` (case sensitive!) which are in the current directory (folder) as input of the program. The backslash sign only acts as a line break and allows to write oneliners on multiple lines to increase he readability.
+Writing or pasting in names of files is of course very inefficient. The below command takes all images beginning with the letters `IMG` (case sensitive!) which are in the current directory (folder) as input of the program. The backslash sign only acts as a line break and allows to write oneliners on multiple lines to increase the readability.
 
 ```bash
 align_image_stack IMG* \
@@ -40,7 +39,7 @@ align_image_stack IMG* \
 ```
 
 
-Depending on your hardware it might make sense to use the GPU wit the argument `-gpu` to speed up the alignment process (haven't tried it yet).
+Depending on your hardware it might make sense to use the GPU with the argument `-gpu` to speed up the alignment process (haven't tried it yet).
 
 
 #### The focus merging
@@ -69,7 +68,7 @@ focus-stack image_1 image_2 image_3 --output=/}_merfoc_fs.tif
 
 
 ## Efficiently using the command line programs
-To not repeat this commands for each stack the commands can be wrapped into a shell script, which can act like a program on the command line. For this scripts to work properly, the image files of each stack must be in their own folders (and checked and for eventual 90 degree rotations!). The folders should be inside an ideally empty folder (text files etc. are unproblematic but images could get overwritten accidentally). This way, preparing the files is the same as for CZBatch. All of the scripts have in common that they search for folders and sequentially go into them and perform the alignment followed by the focus merging. The original images remain as they are before running the scripts and the merged images and placed in the parent directory (where the stack-folders are located). The name of the output image is defined by the names of the stack folders and the suffix specified in the script.
+To not repeat these commands for each stack the commands can be wrapped into a shell script, which can act like a program on the command line. For this scripts to work properly, the image files of each stack must be in their own folders (and checked and for eventual 90 degree rotations!). The folders should be inside an ideally empty folder (text files etc. are unproblematic but images could get overwritten accidentally). This way, preparing the files is the same as for CZBatch. All of the scripts have in common that they search for folders and sequentially go into them and perform the alignment followed by the focus merging. The original images remain as they are before running the scripts and the merged images are placed in the parent directory (where the stack-folders are located). The name of the output image is defined by the names of the stack folders and the suffix is specified in the script.
 
 ### `focus-stack` inside a script (`merfoc_fs.sh`)
 
@@ -147,7 +146,7 @@ The script explained here can also be found as downloadable files in this reposi
 ```
 
 ## Practical example: Reducing artefacts around fluorescent fibers when photographing with UV light (`merfoc_fluo.sh`)
-When merging focus stacks of images from UV light photography there are often artefacts around dust fibers. Some dust fibers strongly glow in blue colour when exposed to UV light. When a focus stack is merged this can result in artefects which are much larger than the fiber itself. By removing the blue colour channel before the focus merging, the artfacts can be minimized. The `convert` function of the software suite [Image Magick](https://imagemagick.org/index.php) can do that when given the specific arguments. 
+When merging focus stacks of images from UV light photography there are often artefacts around dust fibers. Some dust fibers strongly glow in blue colour when exposed to UV light. When a focus stack is merged this can result in artefects which are much larger than the fiber itself. By removing the blue colour channel before the focus merging, these artefacts can be minimized. The `convert` function of the software suite [Image Magick](https://imagemagick.org/index.php) can do that when given the specific arguments. 
 
 ```bash
 convert image_1 -colorspace RGB \
@@ -157,7 +156,7 @@ convert image_1 -colorspace RGB \
                        image_1_redgreen.tif 
 ```
 
-Image Magick is in general a great tool to convert and manipulate images fast and on the command line that everyone should have on their system. This additional step can of course also be put into a shell script to be conveniently usable when handling a large number of stacks.
+Image Magick is in general a great tool to convert and manipulate images fast and on the command line, that everyone should have on their system. This additional step can of course also be put into a shell script to be conveniently usable when handling a large number of stacks.
 
 ```bash
 #!/bin/bash
